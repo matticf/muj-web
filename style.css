@@ -1,0 +1,848 @@
+/* ==========================================================
+   Jiří Matyáš – online vizitka
+   Vizuální styl Českého florbalu. Mobile first.
+   ========================================================== */
+
+/* ---------- Písmo ---------- */
+@font-face {
+  font-family: "Geogrotesque";
+  src: url("fonts/Geo-Rg.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geogrotesque";
+  src: url("fonts/Geo-Md.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geogrotesque";
+  src: url("fonts/Geo-Sb.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geogrotesque";
+  src: url("fonts/Geo-Bd.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Barvy a proměnné ---------- */
+:root {
+  --cf-blue: #102d69;
+  --cf-red: #d51223;
+  --white: #ffffff;
+  --black: #000000;
+  --grey-70: #4d4d4d;   /* doplňkový text */
+  --grey-15: #d9d9d9;   /* linky */
+  --grey-05: #f2f2f2;   /* světlé plochy */
+
+  --font: "Geogrotesque", Arial, Helvetica, sans-serif;
+  --gutter: 16px;
+  --max: 1120px;
+  --narrow: 760px;
+  --header-h: 64px;
+}
+
+/* ---------- Základ ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--cf-blue);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+  text-align: left;
+  hyphens: manual;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--cf-blue);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--cf-blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--cf-red);
+}
+
+:focus-visible {
+  outline: 3px solid var(--cf-blue);
+  outline-offset: 3px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Užší sloupec textu, ale zarovnaný k levému okraji ostatních sekcí */
+.narrow > * {
+  max-width: var(--narrow);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--cf-blue);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 8px;
+  color: var(--white);
+}
+
+/* ---------- Záhlaví ----------
+   Značka: výška 40 px (min.), ochranná zóna 20 % výšky = 8 px. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-15);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-h);
+}
+
+.brand {
+  display: block;
+  padding: 8px;          /* ochranná zóna 20 % z 40 px */
+  margin-left: -8px;
+}
+
+.brand img {
+  height: 40px;
+  width: auto;
+}
+
+.site-nav {
+  display: none;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  font-weight: 600;
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover,
+.site-nav a.is-active {
+  color: var(--cf-blue);
+  border-bottom-color: var(--cf-red);
+}
+
+/* ---------- Tlačítko ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: var(--cf-red);
+  color: var(--white);
+  border: 2px solid var(--cf-red);
+  border-radius: 0;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.button:hover {
+  background: var(--cf-blue);
+  border-color: var(--cf-blue);
+  color: var(--white);
+}
+
+/* Červený blok pod tlačítkem, který se ukáže, když se tlačítko „zvedne“.
+   Sekce kolem tlačítek mají isolation, aby blok nezmizel pod jejich pozadím. */
+.button {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: var(--cf-red);
+  transition: transform 0.2s ease;
+}
+
+.hero,
+.section {
+  isolation: isolate;
+}
+
+.button .fa-brands {
+  font-size: 1.1em;
+}
+
+/* ---------- Motiv mřížky ---------- */
+.grid-motif {
+  height: 72px;
+  background-size: 24px 24px;
+  background-position: left bottom;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+}
+
+.grid-motif--red {
+  background-image:
+    linear-gradient(to right, var(--cf-red) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cf-red) 1px, transparent 1px);
+}
+
+.grid-motif--white {
+  background-image:
+    linear-gradient(to right, var(--white) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--white) 1px, transparent 1px);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+}
+
+/* ---------- 1. Úvod ---------- */
+.hero {
+  padding-top: 24px;
+}
+
+.hero__inner {
+  display: grid;
+  gap: 28px;
+  padding-bottom: 24px;
+}
+
+.hero__photo {
+  position: relative;
+  width: 50%;
+  max-width: 200px;
+  margin-right: 12px;
+}
+
+.hero__photo {
+  transform-style: preserve-3d;
+}
+
+.hero__photo::before {
+  content: "";
+  position: absolute;
+  inset: 12px -12px -12px 12px;
+  background: var(--cf-red);
+}
+
+.hero__photo img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 372 / 453;
+  object-fit: cover;
+  background: var(--grey-05);
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 7.5vw, 3.5rem);
+  letter-spacing: -0.01em;
+}
+
+.hero h1 .name {
+  color: var(--cf-red);
+}
+
+.hero__subtitle {
+  margin-top: 16px;
+  font-size: 1.1875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.hero__lead {
+  color: var(--grey-70);
+  margin-bottom: 28px;
+}
+
+/* ---------- Sekce ---------- */
+.section {
+  padding: 56px 0;
+}
+
+.section--tint {
+  background: var(--grey-05);
+}
+
+.section h2 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  margin-bottom: 24px;
+}
+
+.section h2::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin-bottom: 16px;
+  background: var(--cf-red);
+}
+
+.section h3 {
+  font-size: 1.25rem;
+}
+
+/* ---------- 3. Co dělám ---------- */
+.areas {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.areas {
+  isolation: isolate;
+}
+
+/* Dlaždice: karta se naklání, červený blok za ní zůstává na místě */
+.area {
+  position: relative;
+}
+
+.area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--cf-red);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.area__card {
+  height: 100%;
+  padding: 24px;
+  background: var(--white);
+  border-top: 4px solid var(--cf-blue);
+  transform-style: preserve-3d;
+  transition: border-color 0.3s ease;
+}
+
+.area__card > * {
+  transition: transform 0.3s ease;
+}
+
+.area__num {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--cf-red);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+}
+
+.area h3 {
+  margin-bottom: 10px;
+}
+
+.area p {
+  margin: 0;
+}
+
+/* ---------- 4. Zkušenosti ---------- */
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 24px;
+  list-style: none;
+  border-left: 2px solid var(--cf-blue);
+}
+
+/* Červená výplň osy podle toho, kam čtenář doscrolloval (--progress z JS) */
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--cf-red);
+  transform-origin: top;
+  transform: scaleY(var(--progress, 0));
+}
+
+.timeline__item {
+  position: relative;
+  padding-bottom: 32px;
+}
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: -31px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--white);
+  border: 2px solid var(--cf-blue);
+}
+
+.timeline__item::before {
+  z-index: 1;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.timeline__item--current::before,
+.timeline__item.is-passed::before {
+  background: var(--cf-red);
+  border-color: var(--cf-red);
+}
+
+.timeline__date {
+  margin: 0 0 4px;
+  color: var(--grey-70);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+}
+
+.timeline__item h3 {
+  margin-bottom: 2px;
+}
+
+.timeline__org {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.timeline__item p:last-child {
+  margin-bottom: 0;
+}
+
+.timeline__item--older {
+  padding-bottom: 0;
+}
+
+.older summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.25rem;
+  list-style: none;
+}
+
+.older summary::-webkit-details-marker {
+  display: none;
+}
+
+.older summary::after {
+  content: "+";
+  display: inline-block;
+  margin-left: 10px;
+  color: var(--cf-red);
+}
+
+.older[open] summary::after {
+  content: "–";
+}
+
+.older__years {
+  margin-left: 8px;
+  color: var(--grey-70);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.older__list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.older__list li {
+  padding: 10px 0;
+  border-top: 1px solid var(--grey-15);
+}
+
+.older__date {
+  display: block;
+  color: var(--grey-70);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.older__org {
+  display: block;
+  color: var(--grey-70);
+  font-size: 0.9375rem;
+}
+
+.certs {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--grey-15);
+}
+
+.certs h3 {
+  margin-bottom: 16px;
+}
+
+.certs__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.certs__list li {
+  padding-left: 14px;
+  border-left: 3px solid var(--cf-red);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.certs__list span {
+  display: block;
+  color: var(--grey-70);
+  font-weight: 400;
+  font-size: 0.9375rem;
+}
+
+/* ---------- 5. Kontakt ---------- */
+.contact__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.contact__mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Patička ---------- */
+.site-footer {
+  background: var(--cf-blue);
+  color: var(--white);
+}
+
+.site-footer__inner {
+  padding-top: 8px;
+  padding-bottom: 40px;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer__name {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.site-footer a {
+  color: var(--white);
+}
+
+.site-footer a:hover {
+  color: var(--white);
+  text-decoration-thickness: 2px;
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--white);
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 500;
+}
+
+.site-footer__copy {
+  font-size: 0.875rem;
+}
+
+/* ==========================================================
+   Tablet
+   ========================================================== */
+@media (min-width: 640px) {
+  .areas,
+  .certs__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact__actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .older__list li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    column-gap: 16px;
+  }
+
+  .older__date {
+    grid-row: span 2;
+  }
+}
+
+/* ==========================================================
+   Počítač
+   ========================================================== */
+@media (min-width: 900px) {
+  :root {
+    --gutter: 32px;
+    --header-h: 76px;
+  }
+
+  .brand {
+    padding: 10px;       /* ochranná zóna 20 % z 48 px */
+    margin-left: -10px;
+  }
+
+  .brand img {
+    height: 48px;
+  }
+
+  .site-nav {
+    display: block;
+  }
+
+  .hero {
+    padding-top: 72px;
+  }
+
+  .hero__inner {
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+    gap: 64px;
+    padding-bottom: 48px;
+  }
+
+  .hero__photo {
+    order: 2;
+    width: 100%;
+    max-width: 380px;
+    justify-self: end;
+  }
+
+  .hero__text {
+    order: 1;
+  }
+
+  .hero__subtitle {
+    font-size: 1.375rem;
+  }
+
+  .grid-motif {
+    height: 120px;
+  }
+
+  .section {
+    padding: 96px 0;
+  }
+
+  .areas {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .certs__list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+/* ==========================================================
+   Pohyb a 3D efekty
+   ========================================================== */
+
+/* Postupné vyjetí obsahu při scrollování (třídu js-motion přidává skript v <head>) */
+.js-motion .reveal {
+  opacity: 0;
+  transform: perspective(900px) translateY(40px) rotateX(14deg);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.7s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+}
+
+.js-motion .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Červená linka nad nadpisem sekce se vysune */
+.js-motion .section h2.reveal::before {
+  width: 0;
+  transition: width 0.6s ease 0.3s;
+}
+
+.js-motion .section h2.reveal.is-visible::before {
+  width: 40px;
+}
+
+/* Mřížka v úvodu a patičce se pomalu posouvá */
+@keyframes grid-drift {
+  from { background-position: 0 100%; }
+  to   { background-position: 24px 100%; }
+}
+
+.js-motion .grid-motif {
+  animation: grid-drift 10s linear infinite;
+}
+
+/* Efekty při najetí myší, jen pro zařízení s myší */
+@media (hover: hover) and (pointer: fine) {
+  .button {
+    transition: background-color 0.15s, border-color 0.15s, top 0.2s ease, left 0.2s ease;
+  }
+
+  .button:hover {
+    top: -4px;
+    left: -4px;
+  }
+
+  .button:hover::before {
+    transform: translate(6px, 6px);
+  }
+
+  .area:hover::before {
+    opacity: 1;
+    transform: translate(8px, 8px);
+  }
+
+  .area:hover .area__card {
+    border-top-color: var(--cf-red);
+  }
+
+  /* Obsah karty „vystoupí“ nad její plochu */
+  .area:hover .area__num {
+    transform: translateZ(40px);
+  }
+
+  .area:hover .area__card h3 {
+    transform: translateZ(28px);
+  }
+
+  .area:hover .area__card p {
+    transform: translateZ(16px);
+  }
+
+  /* Červený blok za fotkou je v hloubce, fotka před ním */
+  .hero__photo:hover::before {
+    transform: translateZ(-50px);
+  }
+
+  .hero__photo:hover img {
+    transform: translateZ(20px);
+  }
+
+  .hero__photo::before,
+  .hero__photo img {
+    transition: transform 0.3s ease;
+  }
+
+  .certs__list li {
+    transition: border-left-width 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .certs__list li:hover {
+    border-left-width: 6px;
+    padding-left: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .button:hover {
+    top: 0;
+    left: 0;
+  }
+
+  .button:hover::before {
+    transform: none;
+  }
+}
